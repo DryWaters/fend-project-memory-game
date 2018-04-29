@@ -3,10 +3,16 @@
  */
 (function () {
 
-  init();
+    /*
+   * Display the cards on the page
+   *   - shuffle the list of cards using the provided "shuffle" method below
+   *   - loop through each card and create its HTML
+   *   - add each card's HTML to the page
+   */
 
   function init() {
-    document.querySelector('.deck').innerHTML = '';
+    const deck = document.querySelector('.deck');
+    deck.innerHTML = '';
     const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
     const cards = cardTypes.reduce((array, type) => {
       array.push(type, type);
@@ -14,18 +20,17 @@
     }, []);
 
     shuffle(cards);
-    const fragment = document.createDocumentFragment();    
+    const fragment = document.createDocumentFragment();
+    cards.map((card) => {
+      const li = document.createElement('li');
+      li.className = 'card';
+      const i = document.createElement('i');
+      i.className = `fa ${card}`;
+      li.appendChild(i);
+      fragment.appendChild(li);
+    });
+    deck.appendChild(fragment);
   }
-
-  
-
-
-  /*
-   * Display the cards on the page
-   *   - shuffle the list of cards using the provided "shuffle" method below
-   *   - loop through each card and create its HTML
-   *   - add each card's HTML to the page
-   */
 
   // Shuffle function from http://stackoverflow.com/a/2450976
   function shuffle(array) {
@@ -53,5 +58,7 @@
    *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
    *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
    */
+
+  init();
 
 })();
