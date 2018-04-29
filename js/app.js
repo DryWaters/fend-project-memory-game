@@ -38,17 +38,30 @@
   function generateHtml() {
     const deck = document.querySelector('.deck');
     deck.innerHTML = '';
-    const fragment = document.createDocumentFragment();
+    const cardFrag = document.createDocumentFragment();
     cards.map((card) => {
       const li = document.createElement('li');
       li.className = 'card';
       const i = document.createElement('i');
       i.className = `fa ${card}`;
       li.appendChild(i);
-      fragment.appendChild(li);
+      cardFrag.appendChild(li);
       li.addEventListener('click', checkCard);
     })
-    deck.appendChild(fragment);
+    deck.appendChild(cardFrag);
+
+    const starFrag = document.createDocumentFragment();
+    const starContainer = document.querySelector('.stars');
+    starContainer.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const li = document.createElement('li');
+      const i = document.createElement('i');
+      i.className = 'fa fa-star';
+      li.appendChild(i);
+      starFrag.appendChild(li);
+    }
+    starContainer.appendChild(starFrag);
+
   }
 
   function reset() {
@@ -113,11 +126,13 @@
 
   function setMatch(card) {
     card.removeEventListener('click', checkCard);
+    openCard.removeEventListener('click', checkCard);
     card.className = 'card match';
     openCard.className = 'card match';
     openCard = '';
     matches++;
     if (matches === cardTypes.length) {
+      clearInterval(timer);
       gameRunning = false;
       showWinner();
     }
@@ -139,7 +154,9 @@
     if (openCard !== card) {
       card.className = 'card';
     }
-    tempCard.className = 'card';
+    if (openCard !== tempCard) {
+      tempCard.className = 'card';
+    }
   }
 
   function runTimer() {
