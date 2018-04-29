@@ -80,11 +80,24 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    animation-name: correct-anim;
+    animation-duration: .15s;
+    animation-iteration-count: 5;
+    animation-direction: alternate;
+    animation-delay: 0;
+    animation-timing-function: linear;
 }
 
 .deck .card.nomatch {
     background: red;
     font-size: 33px;
+
+    animation-name: incorrect-anim;
+    animation-duration: .2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-delay: 0;
+    animation-timing-function: ease-out;
 }
 
 /*
@@ -116,4 +129,17 @@ h1 {
 
 .timer {
     text-align: center;
+}
+
+/*
+* Setup Animation keyframes
+*/
+@keyframes correct-anim {
+    from { transform: scale(0.8, 1.2);  }
+    to { transform: scaleY(1.2, 0.8); }
+}
+
+@keyframes incorrect-anim {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg);}
 }

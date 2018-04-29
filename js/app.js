@@ -78,7 +78,12 @@
   }
 
   function checkCard(event) {
-    const selectedCard = event.target;
+    let selectedCard;
+    if (event.target.nodeName === 'LI') {
+      selectedCard = event.target;
+    } else {
+      selectedCard = event.target.parentElement;
+    }
 
     if (!gameRunning) {
       gameRunning = true;
@@ -94,7 +99,7 @@
   }
 
   function isMatch(card) {
-    if (card === openCard || card.nodeName === 'I') {
+    if (card === openCard) {
       return;
     }
 
@@ -125,13 +130,16 @@
   function noMatch(card) {
     card.className = 'card nomatch';
     openCard.className = 'card nomatch';
-    setTimeout(setNoMatch.bind(this, card), 700);
+    let tempCard = openCard;
+    openCard = ''
+    setTimeout(resetClass.bind(this, card, tempCard), 1000);
   }
 
-  function setNoMatch(card) {
-    card.className = 'card';
-    openCard.className = 'card';
-    openCard = '';
+  function resetClass(card, tempCard) {
+    if (openCard !== card) {
+      card.className = 'card';
+    }
+    tempCard.className = 'card';
   }
 
   function runTimer() {
