@@ -4,7 +4,7 @@
 (function () {
 
   const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
-  const numMovesPerStar = 8;
+  const numMovesPerStar = 10;
   let timer;
   let cards = [];
   let moves = 0;
@@ -26,6 +26,7 @@
    
     // setup a click listener for the reset button
     document.querySelector('.restart').addEventListener('click', reset);
+    document.querySelector('.modal__button').addEventListener('click', reset);
   }
 
   function generateCards() {
@@ -65,14 +66,18 @@
   }
 
   function reset() {
+    matches = 0;
     moves = 0;
     time = 0;
+    openCard = '';
     gameRunning = false;
     document.querySelector('.time').textContent = time;
     document.querySelector('.moves').textContent = moves;
     clearInterval(timer);
     shuffle(cards);
     generateHtml();
+    document.querySelector('.container').style = "display: flex";
+    document.querySelector('.modal__container').style = "display: none";
   }
 
   // Shuffle function from http://stackoverflow.com/a/2450976
@@ -139,7 +144,12 @@
   }
 
   function showWinner() {
-    console.log('winner');
+    document.querySelector('.container').style = "display: none";
+    document.querySelector('.modal__container').style = "display: flex";
+    document.querySelector('.modal__moves').textContent = moves;
+    document.querySelector('.modal__time').textContent = time;
+    const numOfStars = document.querySelectorAll('.fa.fa-star').length;
+    document.querySelector('.modal__stars').textContent = numOfStars;
   }
 
   function noMatch(card) {

@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -132,26 +132,49 @@ h1 {
 }
 
 /*
+* Styles for winning modal
+*/
+.modal__container {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(100%);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.modal__header {
+    font-weight: bold;
+}
+
+.modal__button {
+    background-color: #02ccba;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.25em;
+    margin-bottom: 20px;
+    border: 2px solid #02ccba;
+}
+
+.modal__button:hover {
+    cursor: pointer;
+    color: #02ccba;
+    background-color: white;
+    border: 2px solid #2e3d49;
+}
+
+/*
 * Setup Animation keyframes
 */
 @keyframes correct-anim {
-    from { transform: scale(0.8, 1.2);  }
+    from { transform: scale(0.8, 1.2); }
     to { transform: scaleY(1.2, 0.8); }
 }
 
 @keyframes incorrect-anim {
     from { transform: rotate(-10deg); }
-    to { transform: rotate(10deg);}
-}
-
-/*
-* Styles for Modal when they win
-*/
-.modal-winner {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transform: translateY(150%);
+    to { transform: rotate(10deg); }
 }
