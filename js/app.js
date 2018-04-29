@@ -1,6 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
 (function () {
 
   const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
@@ -29,6 +26,7 @@
     document.querySelector('.modal__button').addEventListener('click', reset);
   }
 
+  // generates cards by pushing two of each card type 
   function generateCards() {
     cards = cardTypes.reduce((array, type) => {
       array.push(type, type);
@@ -36,6 +34,9 @@
     }, []);
   }
 
+  // generate star and card HTML
+  // uses document fragments to avoid DOM
+  // reflow/repaint
   function generateHtml() {
     const deck = document.querySelector('.deck');
     deck.innerHTML = '';
@@ -47,7 +48,7 @@
       i.className = `fa ${card}`;
       li.appendChild(i);
       cardFrag.appendChild(li);
-      li.addEventListener('click', checkCard);
+      li.addEventListener('click', handleClickCard);
     })
     deck.appendChild(cardFrag);
 
@@ -65,6 +66,8 @@
 
   }
 
+  // resets all variables, hides the modal, and displays 
+  // a new random set of cards
   function reset() {
     matches = 0;
     moves = 0;
@@ -95,7 +98,13 @@
     return array;
   }
 
-  function checkCard(event) {
+  // callback for clicked card
+  // first it makes sure that the selected object is
+  // not the nested "I"
+  // then starts the timer on first click
+  // then either -> selects a card
+  //       or    -> checks if cards match
+  function handleClickCard(event) {
     let selectedCard;
     if (event.target.nodeName === 'LI') {
       selectedCard = event.target;
@@ -116,12 +125,16 @@
     }
   }
 
+  // checks if cards are a match by
+  // checking if the nested I class names
+  // are the same, if match or not, still
+  // increments move count
   function isMatch(card) {
     if (card === openCard) {
       return;
     }
 
-    if (card.firstChild.className === openCard.firstChild.className && card !== openCard) {
+    if (card.firstChild.className === openCard.firstChild.className) {
       setMatch(card);
     }  else {
       noMatch(card);
@@ -129,20 +142,27 @@
     incrementMoves();
   }
 
+  // handler for when two cards match
+  // it removes the two event listeners
+  // sets their classes and then checks if game is over
+  // by checking matches against number of cardTypes
   function setMatch(card) {
-    card.removeEventListener('click', checkCard);
-    openCard.removeEventListener('click', checkCard);
+    card.removeEventListener('click', handleClickCard);
+    openCard.removeEventListener('click', handleClickCard);
     card.className = 'card match';
     openCard.className = 'card match';
     openCard = '';
     matches++;
     if (matches === cardTypes.length) {
+      incrementMoves();
       clearInterval(timer);
       gameRunning = false;
       showWinner();
     }
   }
 
+  // winning function that hides the cards and
+  // displays the winning modal
   function showWinner() {
     document.querySelector('.container').style = "display: none";
     document.querySelector('.modal__container').style = "display: flex";
@@ -152,6 +172,13 @@
     document.querySelector('.modal__stars').textContent = numOfStars;
   }
 
+  // handler for when cards do not match
+  // sets their class and then uses a 
+  // timeout function to reset the class
+  // back to regular card
+  // use a tempcard to hold the reference
+  // to allow the user to click on the same
+  // card before the animation finishes
   function noMatch(card) {
     card.className = 'card nomatch';
     openCard.className = 'card nomatch';
@@ -160,6 +187,9 @@
     setTimeout(resetClass.bind(this, card, tempCard), 1000);
   }
 
+  // resets the class of the cards selected
+  // if the user has not already selected the card
+  // again before the animation finishes
   function resetClass(card, tempCard) {
     if (openCard !== card) {
       card.className = 'card';
@@ -169,11 +199,15 @@
     }
   }
 
+  // starts the timer
   function runTimer() {
     time++;
     document.querySelector('.time').textContent = time;
   }
 
+  // increments the move counter and also 
+  // removes a star by setting the class name
+  // to an empty star
   function incrementMoves() {
     moves++;
     document.querySelector('.moves').textContent = moves;
@@ -182,22 +216,12 @@
     }
   }
 
+  // displays a card when clicked
   function displayCard(card) {
     card.className = "card open show";
   }
 
-
-  /*
-   * set up the event listener for a card. If a card is clicked:
-   *  - display the card's symbol (put this functionality in another function that you call from this one)
-   *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-   *  - if the list already has another card, check to see if the two cards match
-   *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-   *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-   *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
-   *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-   */
-
+  // sets the listeners and generates the html
   init();
 
 })();
