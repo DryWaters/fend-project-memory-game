@@ -3,6 +3,10 @@
  */
 (function () {
 
+  let numOfMoves = 0;
+  let timer = 0;
+  let openCard = '';
+
     /*
    * Display the cards on the page
    *   - shuffle the list of cards using the provided "shuffle" method below
@@ -11,7 +15,8 @@
    */
 
   function init() {
-  
+    numOfMoves = 0;
+    timer = 0;
     const deck = document.querySelector('.deck');
 
     // clear the old card deck
@@ -41,7 +46,7 @@
     });
     deck.appendChild(fragment);
 
-    setupListeners();
+    setupListeners(deck);
   }
 
   // Shuffle function from http://stackoverflow.com/a/2450976
@@ -59,10 +64,35 @@
     return array;
   }
 
-  function setupListeners() {
+  function setupListeners(deck) {
     document.querySelector('.restart').addEventListener('click', (e)=> {
       init();
-    })
+    });
+
+    deck.addEventListener('click', checkCard.bind(this));
+  }
+
+  function checkCard(event) {
+    // if user did not click on card or icon, return
+    if (event.target.nodeName !== 'LI' && event.target.nodeName !== 'I') {
+      return;
+    }
+    displayCard(event.target);
+    if (openCard) {
+
+    }
+
+  }
+
+  function displayCard(target) {
+    if (target.nodeName === 'LI') {
+      target.className = "card open show";
+      console.log(target.firstChild.className);
+    } else if (target.nodeName === 'I') {
+      target.parentElement.className = "card open show";
+      console.log(target.className);
+    }
+    
   }
 
 
