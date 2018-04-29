@@ -11,15 +11,25 @@
    */
 
   function init() {
+  
     const deck = document.querySelector('.deck');
+
+    // clear the old card deck
     deck.innerHTML = '';
     const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
+
+    // generate an array of cards that contains the match for each
+    // valid card type
     const cards = cardTypes.reduce((array, type) => {
       array.push(type, type);
       return array;
     }, []);
 
+    // shuffle the strings of valid card types
     shuffle(cards);
+
+    // create a document fragment to store the dynamically
+    // generated cards
     const fragment = document.createDocumentFragment();
     cards.map((card) => {
       const li = document.createElement('li');
@@ -30,6 +40,8 @@
       fragment.appendChild(li);
     });
     deck.appendChild(fragment);
+
+    setupListeners();
   }
 
   // Shuffle function from http://stackoverflow.com/a/2450976
@@ -45,6 +57,12 @@
     }
 
     return array;
+  }
+
+  function setupListeners() {
+    document.querySelector('.restart').addEventListener('click', (e)=> {
+      init();
+    })
   }
 
 
