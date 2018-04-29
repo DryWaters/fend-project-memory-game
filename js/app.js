@@ -6,7 +6,7 @@
   const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
   let timer;
   let cards = [];
-  let numOfMoves = 0;
+  let moves = 0;
   let time = 0;
   let openCard = '';
   let gameRunning = false;
@@ -58,10 +58,11 @@
   }
 
   function reset() {
-    numOfMoves = 0;
+    moves = 0;
     time = 0;
     gameRunning = false;
     document.querySelector('.time').textContent = time;
+    document.querySelector('.moves').textContent = moves;
     clearInterval(timer);
     shuffle(cards);
     generateHtml();
@@ -83,11 +84,13 @@
   }
 
   function checkCard(event) {
+    moves++;
     // if user did not click on card or icon, return
     if (!gameRunning) {
       gameRunning = !gameRunning;
       timer = setInterval(runTimer, 1000);
     }
+    document.querySelector('.moves').textContent = moves;
     displayCard(event.target);
     if (openCard) {
 
