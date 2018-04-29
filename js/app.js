@@ -4,10 +4,13 @@
 (function () {
 
   const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
+  let timer;
   let cards = [];
   let numOfMoves = 0;
-  let timer = 0;
+  let time = 0;
   let openCard = '';
+  let gameRunning = false;
+
 
     /*
    * Display the cards on the page
@@ -17,9 +20,6 @@
    */
 
   function init() {
-    numOfMoves = 0;
-    timer = 0;
-
     // generate an array of cards that contains the match for each
     // valid card type
     generateCards();
@@ -59,7 +59,10 @@
 
   function reset() {
     numOfMoves = 0;
-    timer = 0;
+    time = 0;
+    gameRunning = false;
+    document.querySelector('.time').textContent = time;
+    clearInterval(timer);
     shuffle(cards);
     generateHtml();
   }
@@ -81,15 +84,21 @@
 
   function checkCard(event) {
     // if user did not click on card or icon, return
-    if (event.target.nodeName !== 'LI' && event.target.nodeName !== 'I') {
-      return;
+    if (!gameRunning) {
+      gameRunning = !gameRunning;
+      timer = setInterval(runTimer, 1000);
     }
     displayCard(event.target);
     if (openCard) {
 
     }
-
   }
+
+  function runTimer() {
+    time++;
+    document.querySelector('.time').textContent = time;
+  }
+
 
   function displayCard(target) {
     if (target.nodeName === 'LI') {
@@ -99,7 +108,6 @@
       target.parentElement.className = "card open show";
       console.log(target.className);
     }
-    
   }
 
 

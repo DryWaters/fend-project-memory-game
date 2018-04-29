@@ -108,3 +108,7 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+.timer {
+    text-align: center;
+}
