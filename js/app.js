@@ -11,6 +11,7 @@
   let time = 0;
   let openCard = '';
   let gameRunning = false;
+  let matches = 0;
 
   function init() {
     // generate an array of cards that contains the match for each
@@ -100,9 +101,7 @@
     if (card.firstChild.className === openCard.firstChild.className && card !== openCard) {
       setMatch(card);
     }  else {
-      console.log('no match');
-      openCard.className = 'card';
-      openCard = '';
+      noMatch(card);
     }
     incrementMoves();
   }
@@ -111,6 +110,27 @@
     card.removeEventListener('click', checkCard);
     card.className = 'card match';
     openCard.className = 'card match';
+    openCard = '';
+    matches++;
+    if (matches === cardTypes.length) {
+      gameRunning = false;
+      showWinner();
+    }
+  }
+
+  function showWinner() {
+    console.log('winner');
+  }
+
+  function noMatch(card) {
+    card.className = 'card nomatch';
+    openCard.className = 'card nomatch';
+    setTimeout(setNoMatch.bind(this, card), 700);
+  }
+
+  function setNoMatch(card) {
+    card.className = 'card';
+    openCard.className = 'card';
     openCard = '';
   }
 
