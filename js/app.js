@@ -6,6 +6,7 @@
   init();
 
   function init() {
+    document.querySelector('.deck').innerHTML = '';
     const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
     const cards = cardTypes.reduce((array, type) => {
       array.push(type, type);
