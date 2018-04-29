@@ -3,6 +3,8 @@
  */
 (function () {
 
+  const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
+  let cards = [];
   let numOfMoves = 0;
   let timer = 0;
   let openCard = '';
@@ -17,24 +19,31 @@
   function init() {
     numOfMoves = 0;
     timer = 0;
-    const deck = document.querySelector('.deck');
-
-    // clear the old card deck
-    deck.innerHTML = '';
-    const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
 
     // generate an array of cards that contains the match for each
     // valid card type
-    const cards = cardTypes.reduce((array, type) => {
-      array.push(type, type);
-      return array;
-    }, []);
+    generateCards();
 
     // shuffle the strings of valid card types
     shuffle(cards);
 
     // create a document fragment to store the dynamically
     // generated cards
+    generateHtml();
+   
+    document.querySelector('.restart').addEventListener('click', reset);
+  }
+
+  function generateCards() {
+    cards = cardTypes.reduce((array, type) => {
+      array.push(type, type);
+      return array;
+    }, []);
+  }
+
+  function generateHtml() {
+    const deck = document.querySelector('.deck');
+    deck.innerHTML = '';
     const fragment = document.createDocumentFragment();
     cards.map((card) => {
       const li = document.createElement('li');
@@ -43,10 +52,16 @@
       i.className = `fa ${card}`;
       li.appendChild(i);
       fragment.appendChild(li);
+      li.addEventListener('click', (e)=> checkCard(e));
     });
     deck.appendChild(fragment);
+  }
 
-    setupListeners(deck);
+  function reset() {
+    numOfMoves = 0;
+    timer = 0;
+    shuffle(cards);
+    generateHtml();
   }
 
   // Shuffle function from http://stackoverflow.com/a/2450976
@@ -62,14 +77,6 @@
     }
 
     return array;
-  }
-
-  function setupListeners(deck) {
-    document.querySelector('.restart').addEventListener('click', (e)=> {
-      init();
-    });
-
-    deck.addEventListener('click', checkCard.bind(this));
   }
 
   function checkCard(event) {
