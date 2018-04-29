@@ -4,6 +4,7 @@
 (function () {
 
   const cardTypes = ['fa-envelope', 'fa-eye', 'fa-fighter-jet', 'fa-home', 'fa-life-bouy', 'fa-newspaper-o', 'fa-phone', 'fa-rocket'];
+  const numMovesPerStar = 8;
   let timer;
   let cards = [];
   let moves = 0;
@@ -52,8 +53,8 @@
       i.className = `fa ${card}`;
       li.appendChild(i);
       fragment.appendChild(li);
-      li.addEventListener('click', (e)=> checkCard(e));
-    });
+      li.addEventListener('click', checkCard);
+    })
     deck.appendChild(fragment);
   }
 
@@ -84,17 +85,14 @@
   }
 
   function checkCard(event) {
-    moves++;
-    // if user did not click on card or icon, return
+    const target = event.target;
+
     if (!gameRunning) {
-      gameRunning = !gameRunning;
+      gameRunning = true;
       timer = setInterval(runTimer, 1000);
     }
-    document.querySelector('.moves').textContent = moves;
-    displayCard(event.target);
-    if (openCard) {
-
-    }
+    displayCard(target);
+    incrementMoves();
   }
 
   function runTimer() {
@@ -102,6 +100,13 @@
     document.querySelector('.time').textContent = time;
   }
 
+  function incrementMoves() {
+    moves++;
+    document.querySelector('.moves').textContent = moves;
+    if ((moves <= numMovesPerStar * 3) && (moves % numMovesPerStar === 0)) {
+      document.querySelector('.stars .fa.fa-star').className = 'fa fa-star-o';
+    }
+  }
 
   function displayCard(target) {
     if (target.nodeName === 'LI') {
