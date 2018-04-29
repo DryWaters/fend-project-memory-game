@@ -12,14 +12,6 @@
   let openCard = '';
   let gameRunning = false;
 
-
-    /*
-   * Display the cards on the page
-   *   - shuffle the list of cards using the provided "shuffle" method below
-   *   - loop through each card and create its HTML
-   *   - add each card's HTML to the page
-   */
-
   function init() {
     // generate an array of cards that contains the match for each
     // valid card type
@@ -28,10 +20,10 @@
     // shuffle the strings of valid card types
     shuffle(cards);
 
-    // create a document fragment to store the dynamically
-    // generated cards
+    // generate dynamic html based on the strings
     generateHtml();
    
+    // setup a click listener for the reset button
     document.querySelector('.restart').addEventListener('click', reset);
   }
 
@@ -85,14 +77,41 @@
   }
 
   function checkCard(event) {
-    const target = event.target;
+    const selectedCard = event.target;
 
     if (!gameRunning) {
       gameRunning = true;
       timer = setInterval(runTimer, 1000);
     }
-    displayCard(target);
+
+    if (!openCard) {
+      openCard = selectedCard;
+      displayCard(selectedCard);
+    } else {
+      isMatch(selectedCard);
+    }
+  }
+
+  function isMatch(card) {
+    if (card === openCard || card.nodeName === 'I') {
+      return;
+    }
+
+    if (card.firstChild.className === openCard.firstChild.className && card !== openCard) {
+      setMatch(card);
+    }  else {
+      console.log('no match');
+      openCard.className = 'card';
+      openCard = '';
+    }
     incrementMoves();
+  }
+
+  function setMatch(card) {
+    card.removeEventListener('click', checkCard);
+    card.className = 'card match';
+    openCard.className = 'card match';
+    openCard = '';
   }
 
   function runTimer() {
@@ -108,14 +127,8 @@
     }
   }
 
-  function displayCard(target) {
-    if (target.nodeName === 'LI') {
-      target.className = "card open show";
-      console.log(target.firstChild.className);
-    } else if (target.nodeName === 'I') {
-      target.parentElement.className = "card open show";
-      console.log(target.className);
-    }
+  function displayCard(card) {
+    card.className = "card open show";
   }
 
 
