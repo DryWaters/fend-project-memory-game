@@ -211,7 +211,7 @@
   function incrementMoves() {
     moves++;
     document.querySelector('.moves').textContent = moves;
-    if ((moves <= numMovesPerStar * 3) && (moves % numMovesPerStar === 0)) {
+    if ((moves <= numMovesPerStar * 2) && (moves % numMovesPerStar === 0)) {
       document.querySelector('.stars .fa.fa-star').className = 'fa fa-star-o';
     }
   }
