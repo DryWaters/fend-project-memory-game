@@ -4,23 +4,24 @@ This project is part of the [Udacity Front-End Developer Nanoprogram](https://ww
 
 ## Table of Contents
 
-*
 * [Instructions](#instructions)
 
+<p align="center">
 ![Project Screenshot](https://github.com/DryWaters/fend-project-memory-game/blob/master/img/screenshot.png)
-
+</p>
 
 ## Instructions
 
-This project is part
+The 
 The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
 
 To get started, open `js/app.js` and start building out the app's functionality
 
 For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-## Contributing
+## Live Demo
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+A live demo of this project is running on my personal web page at:
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+[Live Demo Link](http://watersjournal.com/projects/fend-project-memory-game/index.html)
+
