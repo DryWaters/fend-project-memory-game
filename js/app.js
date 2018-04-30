@@ -49,7 +49,7 @@
       li.appendChild(i);
       cardFrag.appendChild(li);
       li.addEventListener('click', handleClickCard);
-    })
+    });
     deck.appendChild(cardFrag);
 
     const starFrag = document.createDocumentFragment();
@@ -183,7 +183,7 @@
     card.className = 'card nomatch';
     openCard.className = 'card nomatch';
     let tempCard = openCard;
-    openCard = ''
+    openCard = '';
     setTimeout(resetClass.bind(this, card, tempCard), 1000);
   }
 
